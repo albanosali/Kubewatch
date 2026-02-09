@@ -21,7 +21,22 @@ type WorkloadMetrics struct {
     CPUUsagePct float64 `json:"cpuUsagePct"`
     MemUsagePct float64 `json:"memUsagePct"`
 }
+type LatencyMetrics struct {
+    Namespace string  `json:"namespace"`
+    Service   string  `json:"service"`
+    P50       float64 `json:"p50_ms"`
+    P95       float64 `json:"p95_ms"`
+    P99       float64 `json:"p99_ms"`
+    ErrorRate float64 `json:"error_rate_pct"`
+}
 
+func (c *Client) GetLatencyMetrics(ctx context.Context) ([]LatencyMetrics, error) {
+    // Mock data for now - replace with real PromQL for http_request_duration_seconds
+    return []LatencyMetrics{
+        {Namespace: "default", Service: "api", P50: 23, P95: 150, P99: 450, ErrorRate: 0.5},
+        {Namespace: "prod", Service: "payments", P50: 45, P95: 320, P99: 1200, ErrorRate: 2.1},
+    }, nil
+}
 func (c *Client) GetWorkloadMetrics(ctx context.Context) ([]WorkloadMetrics, error) {
     ts := time.Now()
 
